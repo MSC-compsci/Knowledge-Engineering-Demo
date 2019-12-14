@@ -8,13 +8,14 @@ from properties.desired_property import DesiredProperty
 from properties.poi import POI, PointOfInterest
 from properties.proximity_to_work import ProximityToWork
 from properties.rent import Rent
-from properties.safety_level import SafetyLevel
+from properties.safety_level import SafetyLevel, SafetyValue
+from queries import get_recommended_neighbourhoods
 
 DESIRED_PROPERTY_OPTIONS = {
     "POI": 0,
     "Rent": 1,
-    "Proximity to work": 2,
-    "Safety Level": 3
+    # "Proximity to work": 2,
+    # "Safety Level": 3
 }
 
 POI_OPTIONS = [
@@ -56,10 +57,10 @@ def proximity_handler() -> DesiredProperty:
 
 
 def safety_handler() -> DesiredProperty:
-    min_level = input("What's the desired level of safety you want to have? Answer with none | weak | strong\n")
+    min_level = input("What's the desired level of safety you want to have? Answer with any | average | safest\n")
     is_required = is_required_prompt()
 
-    return SafetyLevel(min_level=min_level, is_required=is_required)
+    return SafetyLevel(min_level=SafetyValue(min_level), is_required=is_required)
 
 
 def desired_prorerty_submenu(desired_properties: List[DesiredProperty]):
@@ -78,8 +79,14 @@ def desired_prorerty_submenu(desired_properties: List[DesiredProperty]):
 
 
 def view_suggestions_func(desired_properties: List[DesiredProperty]):
-    print(desired_properties)
-    input("Press any key to go back..")
+    recommended_neighbourhoods = get_recommended_neighbourhoods(desired_properties, 10)
+
+    print("List of recommended neighbourhoods:")
+
+    for idx, neighbourhood in enumerate(recommended_neighbourhoods, 1):
+        print(f"{idx}. {neighbourhood}")
+
+    input("Press any Enter to go back..")
 
 
 def main():

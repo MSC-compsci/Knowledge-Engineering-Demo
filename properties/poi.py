@@ -10,16 +10,6 @@ class POI(Enum):
     SCHOOL = "School"
     CINEMA = "Cinema"
     PUBLIC_TRANSPORT = "Public Transport"
-    #
-    # @classmethod
-    # def from_name(cls, name):
-    #     for station, station_name in STATIONS.items():
-    #         if station_name == name:
-    #             return station
-    #     raise ValueError('{} is not a valid station name'.format(name))
-    #
-    # def to_name(self):
-    #     return STATIONS[self.value]
 
 
 class PointOfInterest(DesiredProperty):
