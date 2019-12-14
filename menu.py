@@ -14,8 +14,8 @@ from queries import get_recommended_neighbourhoods
 DESIRED_PROPERTY_OPTIONS = {
     "POI": 0,
     "Rent": 1,
-    "Proximity to work": 2,
-    "Safety Level": 3
+    # "Proximity to work": 2,
+    # "Safety Level": 3
 }
 
 POI_OPTIONS = [
