@@ -9,19 +9,22 @@ from properties.rent import Rent
 CURRENT_SCORE_COLUMN = 'current_score'
 
 #This function opens the data provided in data folder and fills a list
-def get_recommended_neighbourhoods(properties: List[DesiredProperty], number: int = 10) -> List[str]:
-    amsterdam_neighbourhoods = pd.read_csv("data/amsterdam.csv")
-    amsterdam_neighbourhoods[CURRENT_SCORE_COLUMN] = 0
+def get_recommended_neighbourhoods(
+        neighbourhoods: pd.DataFrame,
+        properties: List[DesiredProperty],
+        number: int = 10
+) -> List[str]:
+    neighbourhoods[CURRENT_SCORE_COLUMN] = 0
 
     for prop in properties:
         if type(prop) is Rent:
-            amsterdam_neighbourhoods = apply_rent(prop, amsterdam_neighbourhoods)
+            neighbourhoods = apply_rent(prop, neighbourhoods)
         if type(prop) is PointOfInterest:
-            amsterdam_neighbourhoods = apply_poi(prop, amsterdam_neighbourhoods)
+            neighbourhoods = apply_poi(prop, neighbourhoods)
 
-    amsterdam_neighbourhoods = amsterdam_neighbourhoods.sort_values(by=CURRENT_SCORE_COLUMN, ascending=False)
+    neighbourhoods = neighbourhoods.sort_values(by=CURRENT_SCORE_COLUMN, ascending=False)
 
-    return list(amsterdam_neighbourhoods['regio'].head(number))
+    return list(neighbourhoods['regio'].head(number))
 
 #If rent is a requirement/preference this function is invoked
 def apply_rent(rent: Rent, neighbourhoods: pd.DataFrame) -> pd.DataFrame:

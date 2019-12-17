@@ -1,5 +1,6 @@
 # Import the necessary packages
 from typing import List
+import pandas as pd
 
 from consolemenu import ConsoleMenu, SelectionMenu
 from consolemenu.items import FunctionItem
@@ -80,8 +81,8 @@ def desired_prorerty_submenu(desired_properties: List[DesiredProperty]):
     desired_properties.append(new_property)
 
 #Function responsible to print recommended neighboorhoods
-def view_suggestions_func(desired_properties: List[DesiredProperty]):
-    recommended_neighbourhoods = get_recommended_neighbourhoods(desired_properties, 10)
+def view_suggestions_func(neighbourhoods: pd.DataFrame, desired_properties: List[DesiredProperty]):
+    recommended_neighbourhoods = get_recommended_neighbourhoods(neighbourhoods, desired_properties, 10)
 
     print("List of recommended neighbourhoods:")
 
@@ -95,12 +96,19 @@ def main():
     #List containing the choices of the user
     desired_properties: List[DesiredProperty] = []
 
+    #Load ontology
+    amsterdam_neighbourhoods = pd.read_csv("data/amsterdam.csv")
+
     # Create the menu
     menu = ConsoleMenu("AreA", "An advisor on Amsterdam's residential areas")
 
     # Menu Items
     desired_prop_item = FunctionItem("Add desired property", desired_prorerty_submenu, [desired_properties])
-    view_sugg_item = FunctionItem("Get suggestions", view_suggestions_func, [desired_properties])
+    view_sugg_item = FunctionItem(
+        "Get suggestions",
+        view_suggestions_func,
+        [amsterdam_neighbourhoods, desired_properties]
+    )
 
     # Once we're done creating them, we just add the items to the menu
     menu.append_item(desired_prop_item)
