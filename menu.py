@@ -89,7 +89,7 @@ def view_suggestions_func(neighbourhoods: pd.DataFrame, desired_properties: List
     for idx, neighbourhood in enumerate(recommended_neighbourhoods, 1):
         print(f"{idx}. {neighbourhood}")
 
-    input("Press any Enter to go back..")
+    input("Press any key to go back..")
 
 #The main fuction: The console menu is created, an then the rest of the submenus are attached to it.
 def main():
