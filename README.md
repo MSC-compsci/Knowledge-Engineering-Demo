@@ -13,8 +13,7 @@ The program at hand has two main operations:
 2. quiries the dataset and presents the proposed list of areas
 
 `menu.py` is the start of the control flow. It spawns a CLI and based on the user's input (Add a property or get suggestions) calls the corresponding function. 
-Desired Property is a concept defined in our domain schema representing from Points of interest to safety levels. All such types of properties are organised as 
-district modules.
+Desired Property is a concept defined in our domain schema representing from Points of interest to safety levels. All such types of properties are organised as distinct modules.
 
 `quieries.py` is the module responsible for searching into the dataset and based on the user's input presents the suggestion list of the system.
 
