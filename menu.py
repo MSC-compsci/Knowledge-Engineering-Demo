@@ -11,6 +11,7 @@ from properties.rent import Rent
 from properties.safety_level import SafetyLevel, SafetyValue
 from queries import get_recommended_neighbourhoods
 
+#Dictionary containing the Desired Property types
 DESIRED_PROPERTY_OPTIONS = {
     "POI": 0,
     "Rent": 1,
@@ -18,6 +19,7 @@ DESIRED_PROPERTY_OPTIONS = {
     # "Safety Level": 3
 }
 
+#Enumeration containing the poi types
 POI_OPTIONS = [
     POI.SHOP.value,
     POI.MEDICAL_FACILITY.value,
@@ -27,20 +29,20 @@ POI_OPTIONS = [
     POI.PUBLIC_TRANSPORT.value,
 ]
 
-
+# User specifies whether the input is a requirement or a preference
 def is_required_prompt() -> bool:
     required_flag = input(
         "Is this selection a requirement or a preference?\nAnswer with (r) for requirement and (p) for preference\n")
     return required_flag == "r"
 
-
+#Handles the type of the Point of Interest
 def poi_type_selection_handler() -> DesiredProperty:
     selected_poi_value = POI_OPTIONS[SelectionMenu.get_selection(POI_OPTIONS)]
     is_required = is_required_prompt()
 
     return PointOfInterest(poi_type=POI(selected_poi_value), is_required=is_required)
 
-
+#Prompts the user to provide min and max rent, stores the input on a Rent object
 def rent_handler() -> DesiredProperty:
     min_value = int(input("What's the minimum rent (euro) you are willing to pay?\n"))
     max_value = int(input("What's the maximum rent (euro) you are willing to pay?\n"))
@@ -48,21 +50,21 @@ def rent_handler() -> DesiredProperty:
 
     return Rent(min_value=min_value, max_value=max_value, is_required=is_required)
 
-
+#Prompts the user to provide the max distance they want to travel daily, stores the input on a ProximityToWork object
 def proximity_handler() -> DesiredProperty:
     max_distance = int(input("What's the maximum distance (in km) you are willing to commute on a daily basis?\n"))
     is_required = is_required_prompt()
 
     return ProximityToWork(max_distance=max_distance, is_required=is_required)
 
-
+#Creates and stores user's safety level choice
 def safety_handler() -> DesiredProperty:
     min_level = input("What's the desired level of safety you want to have? Answer with any | average | safest\n")
     is_required = is_required_prompt()
 
     return SafetyLevel(min_level=SafetyValue(min_level), is_required=is_required)
 
-
+#Creates a submenu for the desired property
 def desired_prorerty_submenu(desired_properties: List[DesiredProperty]):
     selected = SelectionMenu.get_selection(DESIRED_PROPERTY_OPTIONS.keys())
     if selected == DESIRED_PROPERTY_OPTIONS["POI"]:
@@ -77,7 +79,7 @@ def desired_prorerty_submenu(desired_properties: List[DesiredProperty]):
         return
     desired_properties.append(new_property)
 
-
+#Function responsible to print recommended neighboorhoods
 def view_suggestions_func(desired_properties: List[DesiredProperty]):
     recommended_neighbourhoods = get_recommended_neighbourhoods(desired_properties, 10)
 
@@ -88,8 +90,9 @@ def view_suggestions_func(desired_properties: List[DesiredProperty]):
 
     input("Press any Enter to go back..")
 
-
+#The main fuction: The console menu is created, an then the rest of the submenus are attached to it.
 def main():
+    #List containing the choices of the user
     desired_properties: List[DesiredProperty] = []
 
     # Create the menu

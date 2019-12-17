@@ -8,7 +8,7 @@ from properties.rent import Rent
 
 CURRENT_SCORE_COLUMN = 'current_score'
 
-
+#This function opens the data provided in data folder and fills a list
 def get_recommended_neighbourhoods(properties: List[DesiredProperty], number: int = 10) -> List[str]:
     amsterdam_neighbourhoods = pd.read_csv("data/amsterdam.csv")
     amsterdam_neighbourhoods[CURRENT_SCORE_COLUMN] = 0
@@ -23,7 +23,7 @@ def get_recommended_neighbourhoods(properties: List[DesiredProperty], number: in
 
     return list(amsterdam_neighbourhoods['regio'].head(number))
 
-
+#If rent is a requirement/preference this function is invoked
 def apply_rent(rent: Rent, neighbourhoods: pd.DataFrame) -> pd.DataFrame:
     if rent.is_required:
         return neighbourhoods[neighbourhoods['rent_monthly'].between(rent.min_value, rent.max_value)]
@@ -31,7 +31,7 @@ def apply_rent(rent: Rent, neighbourhoods: pd.DataFrame) -> pd.DataFrame:
         neighbourhoods.loc[neighbourhoods['rent_monthly'].between(rent.min_value, rent.max_value), CURRENT_SCORE_COLUMN] += 1
     return neighbourhoods
 
-
+#If PointOfInterest is a requirement/preference this function is invoked
 def apply_poi(poi: PointOfInterest, neighbourhoods: pd.DataFrame) -> pd.DataFrame:
     neighbourhood_filter = None
 
