@@ -7,6 +7,7 @@ from properties.poi import PointOfInterest, POI
 from properties.rent import Rent
 
 CURRENT_SCORE_COLUMN = 'current_score'
+pd.set_option('mode.chained_assignment', None)
 
 #This function opens the data provided in data folder and fills a list
 def get_recommended_neighbourhoods(
